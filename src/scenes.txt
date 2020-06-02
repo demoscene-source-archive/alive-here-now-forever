@@ -1,0 +1,149 @@
+parameters:
+   ro x
+   ro y
+   ro z
+   angle x
+   angle y
+   sun angle z
+   
+   
+scene A:
+   vol:
+		"{float xa=-1.8;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+		"d=max(d,clamp(mix(0.,.06,1.-smoothstep(-.02,.02,abs(volpos.y+fbm(volpos+t/10*vec3(1,0,0))/16+fbm(volpos*12+t/10*vec3(1,0,0))/16)-.1)),0,1));"
+		"d=clamp(d/1.01+.0005/2,0.,1.);"
+   ren:
+      "vec3 cam=vec3(0,0.05,1.4*1.8);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.25;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=1.2+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc+(vec3(1,.9,.4)*.08/max(.1,length((uv-vec2(.1,.9))*vec2(16./9.,1))-.04)+vec3(.4,.4,1)/15.)*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+
+      
+scene B:
+   vol:
+      "{float xa=-.7;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=max(d,clamp(mix(0.,.06,1.0-smoothstep(-.012,.012,fbm(volpos)+2*fbm(volpos*2.+20-vec3(1,0,-.5)*t*.02)*.4+(smoothstep(.1,.7,abs(volpos.y)-.1)))),0.,1.));"
+      "d=clamp(d/1.0+.0005,0.,1.);"
+
+   ren:
+      "vec3 cam=vec3(.2,0,2*2.1);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=-.5;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=.9+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc+vec3(.4,.4,1)/15.*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+
+   
+scene D:
+   vol:
+      "{float xa=-.7;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=max(d,clamp(mix(0.,.06,1.0-smoothstep(-.012,.012,fbm(volpos)+2*fbm(volpos*2.+20-vec3(1,0,-.5)*t*.02)*.4+(smoothstep(.1,.7,abs(volpos.y)-.1)))),0.,1.));"
+      "d=clamp(d/1.0+.0005,0.,1.);"
+
+   ren:
+      "vec3 cam=vec3(.2,0,2*2.1);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.5;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=.9+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "l+=d*s*den;"
+      "vec3 c=vec3(l)+vec3(.4,.4,1)/15.*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+ 
+  
+scene E:
+   (= scene B with different parameters)
+
+scene F:
+   vol:
+      "{float xa=-1.5;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=max(d,clamp(mix(0.,.06,1.0-smoothstep(-.02,.02,t/135+fbm(volpos)+2*fbm(volpos*2.+20-vec3(-1,0,-.5)*t*.02)*.4+(smoothstep(.1,.7,abs(volpos.y)-.1)))),0.,1.));"
+      "d=clamp(d/1.01+.0005/2,0.,1.);"
+
+   ren:
+      "vec3 cam=vec3(.2,0,2*1.6);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.8;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=.6+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc*vec3(1,.45,.4)*.8+vec3(.4,.4,1)/15.*mix(.2,1.,den)*mix(1.5,.9,uv.y)*0;"
+      "c*=1.-clamp(float(time)/20000.,0,1);"
+
+scene G:
+   vol:
+      "{float xa=-.1;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=max(d,clamp(mix(0.,.06,1.-smoothstep(-.02,.02,abs(volpos.y+fbm(volpos+t/20*vec3(1,0,1))/10+fbm(volpos*8+t/20*vec3(1,0,1))/4)-.1)),0,1));"
+      "d=clamp(d/1.01+.0005/2,0.,1.);"
+      "float mheight=0.+fbm(vec3(volpos.xz,4));"
+      "vec4 result=vec4(d,1.-s[gl_LocalInvocationID.x],0,0);"
+
+   ren:
+      "vec3 cam=vec3(0,0,2.*1.8);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.5;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=1.2+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc+(vec3(.4,.4,1)/15.)*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+
+scene H:
+   (= scene B with different parameters)
+
+scene I:
+   vol:
+      "{float xa=-.1;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=clamp(d/1.01+.0005,0.,1.);"
+      "float mheight=-0.1+fbm(vec3(volpos.xz,1));\n"
+      "float terrain=clamp((volpos.y-mheight)*5.,0,1);"
+      "d=max(d,clamp(mix(0.,.06,1.-smoothstep(-.02,.02,abs(volpos.y-mheight/3.+fbm(volpos+t/20*vec3(0,0,-1))/10+fbm(volpos*8+t/20*vec3(0,0,-1))/4)-.1)),0,1));"
+      "d=max(d,terrain);"
+      "vec4 result=vec4(d,1.-s[gl_LocalInvocationID.x],0,0);"
+
+   ren:
+      "vec3 cam=vec3(0,0,2.*1.8);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.4;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=1.2+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc+(vec3(.4,.4,1)/15.)*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+
+scene J:
+   vol:
+		"{float xa=-.1;""volpos.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "d=clamp(d/1.01+.0005/2,0.,1.);"
+      "float mheight=-0.1+fbm(vec3(volpos.xz,1));\n"
+      "float terrain=clamp((volpos.y-mheight)*3,0,1);"
+      "d=max(d,clamp(mix(0.,.06,1.-smoothstep(-.02,.02,abs(volpos.y-mheight/2.+fbm(volpos+t/20*vec3(0,0,-1))/10+fbm(volpos*8+t/20*vec3(0,0,-1))/4)-.1)),0,1));"
+      "d=max(d,terrain);"
+      "vec4 result=vec4(d,1.-s[gl_LocalInvocationID.x],0,0);"
+      "result.y*=1-smoothstep(.0,.01,volpos.y-mheight+.01);"
+
+   ren:
+      "vec3 cam=vec3(0,0.05,2.*1.8);"
+      "vec3 rd=vec3(uv*2.0-1.0,-2*2.4);"
+      "{float xa=.45;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=1.2+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(s),vec3(1,2,3))*den*d;"
+      "vec3 c=lc+(vec3(.4,.4,1)/15.)*mix(.2,1.,den)*mix(1.5,.9,uv.y);"
+
+scene K: (= the baseline scene)
+   vol:
+      "{float xa=-"STRINGIFY(SUNANGLE)";""v.xy*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "float d=0;"
+      "float h=-.1+f(vec3(v.xz,1));"
+      "float n=clamp((v.y-h)*5,0,1);"
+      "d=max(d,clamp(mix(0.,.06,1.-smoothstep(-.1,.1,abs(v.y-h/2.+f(v+t/20*vec3(0,0,-1))/4)-.1)),0,1));"
+      "d=max(d,n);"
+      "d=clamp(d/1.01*.05+.0005/2,0,1);"
+      "r.xy=vec2(d,1.-s[gl_LocalInvocationID.x]);"
+      "r.y*=1-smoothstep(.0,.01,v.y-h+.01);"
+      "r.y*=mix(.1,1.,smoothstep(-.025*2,.025*2,f(vec3(ov.xz*4+t/16.+7,5))-.1));"
+
+   ren:
+      "{float xa=.2;""ro.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.yz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "{float xa=1.2/2+floor(uv.x*8)*0;""ro.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));""rd.xz*=mat2(cos(xa),sin(xa),-sin(xa),cos(xa));}"
+      "lc+=pow(vec3(d.y),vec3(1))*e*d.x;"
+      "vec3 c=lc+(vec3(1,.9,.4)*.08/max(.1,length((uv-vec2(-.1,1.1))*vec2(16./9.,1))-.04)+vec3(.4,.4,1)/15.)*mix(.2,1.,e)*mix(1.5,.9,uv.y);"
+
+
+
+   
